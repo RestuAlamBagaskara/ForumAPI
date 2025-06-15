@@ -1,6 +1,6 @@
 name: Continuous Deployment
 
-on:
+on: 
   push:
     branches:
       - master
@@ -10,19 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p 13525 0.tcp.ap.ngrok.io >> ~/.ssh/known_hosts
-
-      - name: Deploy via SSH
-        run: |
-          ssh -vvv -p 13525 clown69@0.tcp.ap.ngrok.io << 'EOF'
-            cd "/home/deployer/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
-            git pull origin master
-            npm install
-            npm run migrate up
-            pm2 restart forum-api || npm run start
-          EOF
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd "/home/deployer/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
+          git pull origin master
+          npm install
+          npm run migrate up
+          pm2 restart forum-api
