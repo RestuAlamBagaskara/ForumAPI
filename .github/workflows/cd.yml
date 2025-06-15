@@ -15,12 +15,12 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p 22 sequence-leader-dietary-webshots.trycloudflare.com >> ~/.ssh/known_hosts
+          ssh-keyscan -p 13525 0.tcp.ap.ngrok.io >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -p 22 clown69@sequence-leader-dietary-webshots.trycloudflare.com << 'EOF'
-            cd "/home/clown69/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
+          ssh -p 13525 deployer@0.tcp.ap.ngrok.io << 'EOF'
+            cd "/home/deployer/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
             git pull origin master
             npm install
             npm run migrate up
