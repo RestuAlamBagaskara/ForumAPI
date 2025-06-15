@@ -19,7 +19,7 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-          ssh -p 13525 deployer@0.tcp.ap.ngrok.io << 'EOF'
+          ssh -p 13525 clown69@0.tcp.ap.ngrok.io << 'EOF'
             cd "/home/deployer/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
             git pull origin master
             npm install
