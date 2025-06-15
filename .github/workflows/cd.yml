@@ -1,4 +1,4 @@
-name: Deploy to Localhost via SSH
+name: Continuous Deployment
 
 on:
   push:
@@ -15,11 +15,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p 2000 -H 192.168.1.6 >> ~/.ssh/known_hosts
+          ssh-keyscan -p 22 sequence-leader-dietary-webshots.trycloudflare.com >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh -p 2000 -i ~/.ssh/id_rsa clown69@192.168.1.6 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -p 22 clown69@sequence-leader-dietary-webshots.trycloudflare.com << 'EOF'
             cd "/home/clown69/dicoding/Submission 1 Menjadi Back-End Developer Expert dengan JavaScript"
             git pull origin master
             npm install
